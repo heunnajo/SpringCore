@@ -3,19 +3,18 @@ package hello.core.order;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
     //인터페이만 존재!DIP 만족!
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
-    @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-        this.memberRepository = memberRepository;
-        this.discountPolicy = discountPolicy;
-    }
+    //@Autowired 생성자 딱 1개니까 생략가능!
+
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {

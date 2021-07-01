@@ -33,6 +33,6 @@ public class ComponentFilterAppConfigTest {
     )
 
     static class ComponentFilterAppConfig{
-
+        
     }
 }

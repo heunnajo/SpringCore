@@ -1,6 +1,9 @@
 package hello.core.lifecycle;
 
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 public class NetworkClient {//이름 그대로 초기화해주는 인터페이스을 상속받는다!
     private String url;
 
@@ -25,12 +28,14 @@ public class NetworkClient {//이름 그대로 초기화해주는 인터페이�
 
     //말 그대로 property들 셋팅이 끝나면(DI;의존관계 주입 끝나면)
     //DI 끝나면 아래 함수 호출해준다!!!
+    @PostConstruct
     public void init() throws Exception {
         System.out.println("NetworkClient.init");
         connect();
         call("초기화 연결 메시지");
     }
     //빈이 종료될 때 아래 close()호출,실행!
+    @PreDestroy
     public void close() throws Exception {
         System.out.println("NetworkClient.close");
         disconnect();

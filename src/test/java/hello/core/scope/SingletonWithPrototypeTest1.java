@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,15 +39,10 @@ public class SingletonWithPrototypeTest1 {
     @Scope("singleton")
     static class ClientBean{
         @Autowired
-        private ObjectProvider<PrototypeBean> prototypeBeanProvider;
-//        private final PrototypeBean prototypeBean;//생성시점에 prototypeBean이 주입된다!!!
-//        //싱글톤인 ClientBean를 여러번 호출하더라도 이것은 하나의 동일한 prototypeBean이 된다.
-//        @Autowired//prototype 내놔. => 스프링 컨테이너가 DI(prototype) 넣어준다.
-//        public ClientBean(PrototypeBean prototypeBean){
-//            this.prototypeBean = prototypeBean;
-//        }
+        private Provider<PrototypeBean> prototypeBeanProvider;
+
         public int logic(){//client1과 client2 둘다 같은 prototypeBean을 쓴다!
-            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
+            PrototypeBean prototypeBean = prototypeBeanProvider.get();
             prototypeBean.addCount();//이미 생성된 39번째 줄의 prototypeBean을 쓴다!
             int count = prototypeBean.getCount();
             return count;

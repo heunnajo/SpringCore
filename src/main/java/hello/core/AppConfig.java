@@ -1,7 +1,6 @@
 package hello.core;
 
 import hello.core.discount.DiscountPolicy;
-import hello.core.discount.FixDiscountPolicy;
 import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemberService;
@@ -14,7 +13,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class AppConfig{
-    //예상 로그 결과 : memberRepository가 총 3번 호출되야한다!
+    //예상 로그 결과 : memberRepository 총 3번 호출되야한다!
     //call AppConfig.memberService
     //call AppConfig.memberRepository
     //call AppConfig.orderService

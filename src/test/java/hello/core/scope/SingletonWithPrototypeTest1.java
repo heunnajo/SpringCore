@@ -1,6 +1,7 @@
 package hello.core.scope;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
@@ -32,17 +33,20 @@ public class SingletonWithPrototypeTest1 {
 
         ClientBean clientBean2 = ac.getBean(ClientBean.class);
         int count2 = clientBean2.logic();
-        assertThat(count2).isEqualTo(2);
+        assertThat(count2).isEqualTo(1);
     }
     @Scope("singleton")
     static class ClientBean{
-        private final PrototypeBean prototypeBean;//생성시점에 prototypeBean이 주입된다!!!
-        //싱글톤인 ClientBean를 여러번 호출하더라도 이것은 하나의 동일한 prototypeBean이 된다.
-        @Autowired//prototype 내놔. => 스프링 컨테이너가 DI(prototype) 넣어준다.
-        public ClientBean(PrototypeBean prototypeBean){
-            this.prototypeBean = prototypeBean;
-        }
+        @Autowired
+        private ObjectProvider<PrototypeBean> prototypeBeanProvider;
+//        private final PrototypeBean prototypeBean;//생성시점에 prototypeBean이 주입된다!!!
+//        //싱글톤인 ClientBean를 여러번 호출하더라도 이것은 하나의 동일한 prototypeBean이 된다.
+//        @Autowired//prototype 내놔. => 스프링 컨테이너가 DI(prototype) 넣어준다.
+//        public ClientBean(PrototypeBean prototypeBean){
+//            this.prototypeBean = prototypeBean;
+//        }
         public int logic(){//client1과 client2 둘다 같은 prototypeBean을 쓴다!
+            PrototypeBean prototypeBean = prototypeBeanProvider.getObject();
             prototypeBean.addCount();//이미 생성된 39번째 줄의 prototypeBean을 쓴다!
             int count = prototypeBean.getCount();
             return count;
